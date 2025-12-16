@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import CircleButton from "@/components/CircleButton";
+import EmojiPicker from "@/components/EmojiPicker";
 import IconButton from "@/components/IconButton";
 import ImageViewer from "@/components/ImageViewer";
 import * as ImagePicker from "expo-image-picker";
@@ -13,6 +14,7 @@ export default function Index() {
     undefined
   );
   const [showOptions, setShowOptions] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -29,7 +31,12 @@ export default function Index() {
   };
 
   const onReset = () => setShowOptions(false);
-  const onAddSticker = () => {};
+  const onAddSticker = () => {
+    setIsModalVisible(true);
+  };
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
   const onSaveImageAsync = async () => {};
 
   return (
@@ -62,6 +69,10 @@ export default function Index() {
           <Button label="Use this photo" onPress={() => setShowOptions(true)} />
         </View>
       )}
+      <EmojiPicker
+        isVisible={isModalVisible}
+        onClose={onModalClose}
+      ></EmojiPicker>
     </View>
   );
 }
@@ -88,6 +99,12 @@ const styles = StyleSheet.create({
     flex: 1 / 3,
     alignItems: "center",
   },
-  optionsContainer: {},
-  optionsRow: {},
+  optionsContainer: {
+    position: "absolute",
+    bottom: 80,
+  },
+  optionsRow: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
 });
